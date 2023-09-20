@@ -13,5 +13,5 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [react()],
   site: 'https://astro-ecommerce2.koura718.repl.co',
-  base: ''
+  base: '/astro-ecommerce'
 });
