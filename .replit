@@ -1,24 +1,18 @@
+run = "npm run dev --host"
+entrypoint = "index.js"
 
-hidden = [".config", "package-lock.json"]
-run = "npm run dev"
-
-[[hints]]
-regex = "Error \\[ERR_REQUIRE_ESM\\]"
-message = "We see that you are using require(...) inside your code. We currently do not support this syntax. Please use 'import' instead when using external modules. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+hidden = [".config"]
 
 [nix]
-channel = "stable-22_11"
+channel = "stable-23_05"
 
 [env]
-XDG_CONFIG_HOME = "$REPL_HOME/.config"
-PATH = "$REPL_HOME/.config/npm/node_global/bin:$REPL_HOME/node_modules/.bin"
-npm_config_prefix = "$REPL_HOME/.config/npm/node_global"
-
-[gitHubImport]
-requiredFiles = [".replit", "replit.nix", ".config", "package.json", "package-lock.json"]
+XDG_CONFIG_HOME = "/home/runner/.config"
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 
 [packager]
-language = "nodejs"
+language = "nodejs-yarn"
 
   [packager.features]
   packageSearch = true
@@ -27,6 +21,12 @@ language = "nodejs"
 
 [unitTest]
 language = "nodejs"
+
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
+
+  [languages.javascript.languageServer]
+  start = [ "typescript-language-server", "--stdio" ]
 
 [debugger]
 support = true
@@ -67,16 +67,3 @@ support = true
       sourceMaps = true
       stopOnEntry = false
       type = "pwa-node"
-
-[languages]
-
-[languages.javascript]
-pattern = "**/{*.js,*.jsx,*.ts,*.tsx,*.json}"
-
-[languages.javascript.languageServer]
-start = "typescript-language-server --stdio"
-
-[deployment]
-run = ["sh", "-c", "npm run dev"]
-deploymentTarget = "gce"
-ignorePorts = false
